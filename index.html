@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Skincare Routine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#FFF6EE; --surface:#FFFFFF; --ink:#3D2C4E; --muted:#7D6C8C; --line:#EADBEA;
+  --differin:#7A5BB5; --differin-soft:#E9DEFA;
+  --exfoliant:#C9692E; --exfoliant-soft:#FFE3CC;
+  --rest:#3F8A62; --rest-soft:#D9F2E3;
+  --pink:#F7C6D6; --pink-ink:#B04A74;
+  --display:"Fredoka", "Nunito", "Trebuchet MS", sans-serif;
+  --sans:"Nunito", "Segoe UI", Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#251B30; --surface:#30243D; --ink:#F6ECF7; --muted:#C2B2CF; --line:#45365A;
+    --differin:#CDB8F5; --differin-soft:#3B2E57;
+    --exfoliant:#FFC49A; --exfoliant-soft:#4A3022;
+    --rest:#A8E3C0; --rest-soft:#22392E;
+    --pink:#5A3448; --pink-ink:#F7B8CF;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#251B30; --surface:#30243D; --ink:#F6ECF7; --muted:#C2B2CF; --line:#45365A;
+  --differin:#CDB8F5; --differin-soft:#3B2E57;
+  --exfoliant:#FFC49A; --exfoliant-soft:#4A3022;
+  --rest:#A8E3C0; --rest-soft:#22392E;
+  --pink:#5A3448; --pink-ink:#F7B8CF;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;
+  background-image:radial-gradient(var(--line) 1.2px, transparent 1.3px);background-size:22px 22px}
+main{max-width:680px;margin:0 auto;padding:22px 18px 64px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.15;margin:0}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--differin);outline-offset:2px;border-radius:12px}
+
+.top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.top h2{font-size:24px}
+.top svg{flex:none}
+
+/* Stage picker */
+.stage{margin-bottom:20px}
+.stage-label{font-size:15px;color:var(--muted);margin-bottom:8px;font-weight:600}
+.stages{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stages button{border:2px solid var(--line);background:var(--surface);border-radius:18px;padding:10px 8px;cursor:pointer;text-align:center;font-size:14px;line-height:1.3}
+.stages button b{display:block;font-family:var(--display);font-weight:600;font-size:16px}
+.stages button span{color:var(--muted);font-size:12px}
+.stages button[aria-pressed="true"]{background:var(--pink);border-color:var(--pink-ink);color:var(--ink)}
+.stages button[aria-pressed="true"] span{color:var(--ink)}
+.stage-goal{margin-top:12px;padding:14px 16px;background:var(--surface);border:2px dashed var(--line);border-radius:20px;font-size:15px}
+.progress{margin-top:12px;padding:14px 16px;background:var(--pink);border-radius:20px;font-size:15px}
+.progress .big{font-family:var(--display);font-weight:600;font-size:22px;color:var(--pink-ink);line-height:1.2}
+.progress .bar{height:10px;border-radius:999px;background:var(--surface);margin:10px 0 8px;overflow:hidden}
+.progress .bar span{display:block;height:100%;background:var(--pink-ink);border-radius:999px}
+.progress label{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:600;margin-top:8px}
+.progress input{font:inherit;border:2px solid var(--line);border-radius:12px;padding:4px 8px;background:var(--surface);color:var(--ink)}
+.stage-goal strong{display:block;margin-bottom:2px;font-family:var(--display);font-weight:600;font-size:17px;color:var(--pink-ink)}
+
+/* Day picker */
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:22px}
+.day{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 0 7px;cursor:pointer;text-align:center;font-size:14px;font-weight:700}
+.day .dot{display:block;width:9px;height:9px;border-radius:50%;margin:4px auto 0}
+.day[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+
+/* Hero */
+.hero{position:relative;border-radius:30px;padding:26px 24px 24px;margin-bottom:22px;transition:background .25s;overflow:hidden}
+.hero .when{font-size:15px;color:var(--muted);margin-bottom:4px;font-weight:600}
+.hero h1{font-size:clamp(34px,8vw,46px);padding-right:80px}
+.hero .why{margin-top:10px;max-width:42ch;padding-right:40px}
+.hero .mascot{position:absolute;right:16px;top:16px;width:78px;height:78px}
+.night-differin{background:var(--differin-soft)} .night-differin h1{color:var(--differin)}
+.night-exfoliant{background:var(--exfoliant-soft)} .night-exfoliant h1{color:var(--exfoliant)}
+.night-rest{background:var(--rest-soft)} .night-rest h1{color:var(--rest)}
+
+/* Toggle */
+.toggle{display:flex;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:4px;margin-bottom:14px;width:max-content}
+.toggle button{border:0;background:none;padding:8px 18px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--muted)}
+.toggle button[aria-pressed="true"]{background:var(--pink);color:var(--ink)}
+.body-panel{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:16px;margin-bottom:14px}
+.body-panel h3{font-size:20px;color:var(--exfoliant)}
+.body-panel .sub{color:var(--muted);font-size:15px;margin-top:2px}
+.freq{display:flex;gap:8px;margin:12px 0}
+.freq button{border:2px solid var(--line);background:var(--bg);border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:700;font-size:14px}
+.freq button[aria-pressed="true"]{background:var(--exfoliant-soft);border-color:var(--exfoliant);color:var(--exfoliant)}
+.bweek{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.bweek div{padding:8px 2px;text-align:center;font-size:12px;font-weight:700;border-radius:14px;background:var(--bg);color:var(--muted)}
+.bweek div.on{background:var(--exfoliant-soft);color:var(--exfoliant)}
+.bweek div.today{box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* Steps */
+ol.steps{list-style:none;margin:0 0 10px;padding:6px 16px;counter-reset:s;background:var(--surface);border-radius:24px;border:2px solid var(--line)}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr 30px;gap:12px;align-items:start;padding:14px 0;border-bottom:2px dotted var(--line)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li::before{content:counter(s);font-family:var(--display);font-weight:600;font-size:16px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--pink);color:var(--pink-ink)}
+.step-name{font-weight:700}
+.step-note{color:var(--muted);font-size:15px;margin-top:2px}
+.base-tag{display:inline-block;margin-top:4px;font-size:12px;color:var(--muted);font-weight:700;background:var(--bg);border-radius:999px;padding:1px 10px}
+.check{appearance:none;-webkit-appearance:none;width:26px;height:26px;margin-top:2px;border:2px solid var(--line);border-radius:50%;cursor:pointer;display:grid;place-items:center;background:var(--surface)}
+.check:checked{background:var(--rest);border-color:var(--rest)}
+.check:checked::after{content:"";width:7px;height:12px;border:solid var(--surface);border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+li.done .step-name{text-decoration:line-through;color:var(--muted)}
+.fallback{margin-top:14px;padding:14px 16px;background:var(--surface);border-radius:20px;border:2px dashed var(--line);color:var(--muted);font-size:15px}
+
+section{margin-top:40px;background:var(--surface);border-radius:28px;padding:22px 20px;border:2px solid var(--line)}
+section > h2{font-size:25px;margin-bottom:6px}
+section > .lede{color:var(--muted);margin-bottom:16px}
+
+/* Week strip */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.week div{padding:10px 2px;text-align:center;font-size:13px;font-weight:700;border-radius:16px}
+.week span{display:block;font-weight:600;font-size:11px;margin-top:2px}
+.w-differin{background:var(--differin-soft);color:var(--differin)}
+.w-exfoliant{background:var(--exfoliant-soft);color:var(--exfoliant)}
+.w-rest{background:var(--rest-soft);color:var(--rest)}
+.ramp{margin-top:12px;font-size:15px;color:var(--muted)}
+
+/* Shelf */
+.shelf h3{display:inline-block;font-size:17px;margin:22px 0 4px;padding:3px 14px;border-radius:999px}
+.shelf h3.now{background:var(--rest-soft);color:var(--rest)}
+.shelf h3.later{background:var(--differin-soft);color:var(--differin)}
+.shelf h3.hold{background:var(--exfoliant-soft);color:var(--exfoliant)}
+.shelf dl{margin:0}
+.shelf dt{font-weight:700;margin-top:12px}
+.shelf dd{margin:2px 0 0;color:var(--muted);font-size:15px}
+
+/* Rules */
+.rules{list-style:none;padding:0;margin:0}
+.rules li{padding:12px 0;border-bottom:2px dotted var(--line)}
+.rules li:last-child{border-bottom:0}
+.body-card{margin-top:16px;padding:16px;border-radius:20px}
+.body-card.glycolic{background:var(--exfoliant-soft)}
+.body-card.retinal{background:var(--differin-soft)}
+.body-card h3{font-size:18px;margin-bottom:8px}
+.body-card.glycolic h3{color:var(--exfoliant)}
+.body-card.retinal h3{color:var(--differin)}
+.body-card h4{font-size:14px;margin:10px 0 2px;font-weight:700}
+.body-card ul,.body-rules{margin:0;padding-left:20px;font-size:15px}
+.body-card li,.body-rules li{margin:3px 0}
+.body-rules{margin-top:16px}
+.rules strong{display:block}
+.rules span{color:var(--muted);font-size:15px}
+
+footer{margin-top:28px;font-size:13px;color:var(--muted);text-align:center}
+@media (max-width:420px){ .stages{grid-template-columns:repeat(2,1fr)} .hero .mascot{width:62px;height:62px} .hero h1{padding-right:64px} }
+@media (prefers-reduced-motion:reduce){.hero{transition:none} .mascot{animation:none!important}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.mascot{animation:bob 3.2s ease-in-out infinite}
+.mascot svg{width:100%;height:100%;display:block}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <svg width="34" height="38" viewBox="0 0 34 38" aria-hidden="true"><path d="M17 2C8.7 2 3 8.3 3 16.5V35l4.7-3.4L12.3 35l4.7-3.4 4.7 3.4 4.6-3.4L31 35V16.5C31 8.3 25.3 2 17 2z" fill="#FFFFFF" stroke="var(--ink)" stroke-width="2.4" stroke-linejoin="round"/><circle cx="12.5" cy="16" r="2.2" fill="var(--ink)"/><circle cx="21.5" cy="16" r="2.2" fill="var(--ink)"/><ellipse cx="9" cy="21" rx="2.4" ry="1.5" fill="#F7C6D6"/><ellipse cx="25" cy="21" rx="2.4" ry="1.5" fill="#F7C6D6"/></svg>
+    <h2>My glow routine</h2>
+  </div>
+  <div class="stage">
+    <p class="stage-label">Your stage</p>
+    <div class="stages" id="stages" role="group" aria-label="Choose your stage"></div>
+    <div class="stage-goal" id="stageGoal"></div>
+    <div class="progress" id="progress">
+      <div class="big" id="dayCount"></div>
+      <div class="bar" id="bar"><span id="barFill"></span></div>
+      <div id="nextNote"></div>
+      <label for="startDate">Started this stage on <input type="date" id="startDate"></label>
+    </div>
+  </div>
+
+  <div class="days" id="days" role="group" aria-label="Choose a day"></div>
+
+  <div class="hero" id="hero">
+    <div class="mascot" id="mascot" aria-hidden="true"></div>
+    <p class="when" id="when"></p>
+    <h1 id="nightTitle"></h1>
+    <p class="why" id="nightWhy"></p>
+  </div>
+
+  <div class="toggle" role="group" aria-label="Time of day">
+    <button id="tEvening" aria-pressed="true">Evening</button>
+    <button id="tMorning" aria-pressed="false">Morning</button>
+    <button id="tBody" aria-pressed="false">Body</button>
+  </div>
+
+  <div class="body-panel" id="bodyPanel" hidden>
+    <h3 id="bodyTitle"></h3>
+    <p class="sub" id="bodySub"></p>
+    <div class="freq" role="group" aria-label="Body nights per week">
+      <button id="f2">2 nights a week</button>
+      <button id="f3">3 nights a week</button>
+    </div>
+    <div class="bweek" id="bweek"></div>
+    <p class="sub" style="margin-top:10px">Start at 2 nights a week. Move to 3 after about a month if your skin feels comfortable.</p>
+  </div>
+
+  <ol class="steps" id="steps"></ol>
+  <p class="fallback" id="fallback"></p>
+
+  <section>
+    <h2>Weekly plan</h2>
+    <p class="lede" id="weekLede"></p>
+    <div class="week" id="week"></div>
+    <p class="ramp">Never put Differin and the SOME BY MI toner on the same night.</p>
+  </section>
+
+  <section class="shelf">
+    <h2>Products on the shelf</h2>
+    <p class="lede">Owned but not in the daily rotation yet. Add only one new product every 2 weeks, and patch test first.</p>
+
+    <h3 class="now">Use now</h3>
+    <dl>
+      <dt>Dr.Althea 345 Relief Cream</dt>
+      <dd>Backup moisturizer for any night your skin feels irritated. Good for the reset stage.</dd>
+      <dt>Tower 28 SOS Daily Rescue Spray</dt>
+      <dd>Gentle hypochlorous acid mist that calms redness and breakouts. Built into Differin and rest nights and the Body tab. Also good during the day over makeup or bare skin, though it won't set makeup. A faint pool smell is normal and fades.</dd>
+      <dt>COSRX Hyaluronic Acid Intensive Cream</dt>
+      <dd>Richer than your ceramide cream. Use on Differin nights or in winter, mostly on the cheeks.</dd>
+    </dl>
+
+    <h3 class="later">Add later</h3>
+    <dl>
+      <dt>Beauty of Joseon Revive Eye Serum</dt>
+      <dd>Contains retinal. Start 2 rest nights a week, around the eyes only.</dd>
+      <dt>COSRX The 6 Peptide Skin Booster Serum</dt>
+      <dd>Gentle peptides for firmness and barrier support. Start after the Reset stage, in place of the Mixsoon essence on rest nights, on its own for 2 weeks. Once it agrees with your skin, you can also use it on Differin nights before the first thin layer of moisturizer.</dd>
+      <dt>The Ordinary Lactic Acid 10% + HA</dt>
+      <dd>Optional swap for the SOME BY MI toner if texture hasn't improved after a couple of months. Never use both.</dd>
+    </dl>
+
+    <h3 class="hold">Hold off</h3>
+    <dl>
+      <dt>The Ordinary Glycolic Acid 7% Toner</dt>
+      <dd>Too harsh for sensitive skin and overlaps with your exfoliant. Use it on the body instead (see Body care below).</dd>
+      <dt>MEDITHERAPY Retinal Skin Booster</dt>
+      <dd>Doubles up with Differin on the face. Use it on the body (see Body care below), or keep it as a gentler backup if Differin is too strong.</dd>
+      <dt>Vitapair C PDRN Serum</dt>
+      <dd>Same job as the Goodal serum, and contains fragrance and lemon extract. Patch test if you use it up later.</dd>
+      <dt>Farmacy Honey Halo</dt>
+      <dd>Fine as a winter moisturizer. Skip it if you react to honey or propolis.</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Body care</h2>
+    <p class="lede">Body skin is thicker and less sensitive, so these work well below the neck.</p>
+
+    <div class="body-card glycolic">
+      <h3>The Ordinary Glycolic Acid 7% Toner</h3>
+      <h4>Where to use</h4>
+      <ul>
+        <li>Backs of the arms and thighs</li>
+        <li>Elbows, knees, and heels</li>
+        <li>Underarms, gently</li>
+        <li>Shaved legs and outer bikini line, not within a day of shaving</li>
+        <li>Back and chest</li>
+      </ul>
+      <h4>Helps with</h4>
+      <ul>
+        <li>Rough, bumpy skin on the backs of the arms or thighs</li>
+        <li>Rough elbows, knees, and heels</li>
+        <li>Ingrown hairs and razor bumps</li>
+        <li>Dullness or uneven tone on arms, legs, or chest</li>
+        <li>Underarm bumps and darkening from friction or shaving, gradually over weeks to months</li>
+      </ul>
+      <h4>How to use</h4>
+      <ul>
+        <li>Swipe on with a cotton pad after a shower, on dry skin, 2 to 3 evenings a week</li>
+        <li>Follow with body lotion</li>
+        <li>Not right after shaving or on broken skin</li>
+        <li>Underarms: if it stings, apply deodorant in the morning instead of the same night. Stop if it burns, since irritation can make darkening worse</li>
+      </ul>
+    </div>
+
+    <div class="body-card retinal">
+      <h3>MEDITHERAPY Retinal Skin Booster</h3>
+      <h4>Where to use</h4>
+      <ul>
+        <li>Chest (décolletage)</li>
+        <li>Neck, starting slowly</li>
+        <li>Backs of the hands</li>
+        <li>Belly, hips, or thighs, for early stretch marks</li>
+        <li>Not on underarms or other skin folds</li>
+      </ul>
+      <h4>Helps with</h4>
+      <ul>
+        <li>Sun damage and uneven tone on the chest, neck, and backs of the hands</li>
+        <li>Crepey or rough texture</li>
+        <li>Early, still-pink stretch marks (modest results)</li>
+      </ul>
+      <h4>How to use</h4>
+      <ul>
+        <li>Thin layer in the evening, 2 to 3 times a week, then moisturizer</li>
+        <li>Start slowly on the neck and chest, which are more delicate</li>
+        <li>Wash your hands afterward so it doesn't reach your face</li>
+      </ul>
+    </div>
+
+    <ul class="body-rules">
+      <li>Start with both 2 nights a week (Tuesday and Friday). After about a month, if skin is comfortable, switch to 3 (Tuesday, Thursday, Saturday) using the Body tab</li>
+      <li>Keep them on different areas, such as glycolic on arms, legs, and underarms and retinal on chest, neck, and hands. Then both can be used the same night</li>
+      <li>Avoid both on your face, the genital area and inner bikini line, and broken, sunburned, or freshly shaved skin</li>
+      <li>Wear sunscreen on treated areas that get sun</li>
+      <li>See a doctor for underarm darkening that feels velvety or thickened or is spreading, or for painful, deep, or recurring bumps</li>
+      <li>Retinoids, including Differin, are generally avoided during pregnancy or while trying to conceive. Check with your doctor if that applies</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Rules to remember</h2>
+    <ul class="rules">
+      <li><strong>Move up a stage only when nothing happens</strong><span>If any irritation lasts more than a day, stay at your current stage or go back one.</span></li>
+      <li><strong>How to apply Differin</strong><span>Wait until skin is fully dry. Use a pea-sized amount for the whole face, sandwiched between thin layers of moisturizer. Keep it away from the eyes, nose creases, and mouth corners.</span></li>
+      <li><strong>If it still irritates at once a week</strong><span>Adapalene may not suit your skin. Try the MEDITHERAPY retinal serum instead. See a dermatologist for burning, swelling, a rash, or lingering flushing.</span></li>
+      <li><strong>Signs of irritation</strong><span>Stinging from hydrating products, tightness, shiny tight-looking skin, flaking, or redness.</span></li>
+      <li><strong>Sunscreen every morning</strong><span>Retinoids and acids make skin more sun-sensitive. Reapply when outdoors for long periods.</span></li>
+      <li><strong>If filaments don't improve</strong><span>After 6 to 8 weeks, consider swapping the SOME BY MI toner for COSRX BHA Blackhead Power Liquid.</span></li>
+    </ul>
+  </section>
+
+  <footer>Your stage and checkmarks are saved only in this browser. Checkmarks reset each day.</footer>
+</main>
+
+<script>
+const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const FULL = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const STAGES = [
+  {name:"Reset", len:"2 weeks", plan:{0:"rest",1:"rest",2:"rest",3:"rest",4:"rest",5:"rest",6:"rest"},
+   goal:"No Differin and no acid toner. Let your barrier fully recover. If your skin is irritated now, stay here until it feels completely normal.",
+   lede:"Rest nights only."},
+  {name:"Restart", len:"2 to 3 weeks", plan:{0:"rest",1:"differin",2:"rest",3:"rest",4:"rest",5:"rest",6:"rest"},
+   goal:"Differin once a week, sandwiched. Move on only if no irritation lasts more than a day.",
+   lede:"One Differin night a week. No exfoliant nights yet."},
+  {name:"Build", len:"4+ weeks", plan:{0:"rest",1:"differin",2:"rest",3:"rest",4:"differin",5:"rest",6:"rest"},
+   goal:"Differin twice a week, at least 2 nights apart. Stay here at least 4 weeks before adding an exfoliant night.",
+   lede:"Two Differin nights a week. Still no exfoliant nights."},
+  {name:"Full", len:"ongoing", plan:{0:"rest",1:"differin",2:"rest",3:"rest",4:"differin",5:"rest",6:"exfoliant"},
+   goal:"Add one exfoliant night back, if your skin is still calm. Skip this stage if you don't need it.",
+   lede:"Two Differin nights and one exfoliant night."}
+];
+const MIN_DAYS = [14, 14, 28, 0];
+const NEXT = ["Restart", "Build", "Full", ""];
+function getStart(i){
+  try{ const v = window.localStorage.getItem("start:" + i); if(v) return v; }catch(e){}
+  return i === 0 ? "2026-10-08" : i === 1 ? "2026-10-22" : null;
+}
+function setStart(i, v){ try{ window.localStorage.setItem("start:" + i, v); }catch(e){} }
+function ymd(d){ return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+function parseYmd(v){ const [y,m,d] = v.split("-").map(Number); return new Date(y, m-1, d); }
+function fmt(d){ return d.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric"}); }
+let stage = 1;
+try{
+  const v = parseInt(window.localStorage.getItem("stage"), 10);
+  if(v >= 0 && v < STAGES.length) stage = v;
+  if(!window.localStorage.getItem("movedRestart1022")){
+    if(stage < 1){ stage = 1; window.localStorage.setItem("stage", "1"); }
+    window.localStorage.setItem("start:1", "2026-10-22");
+    window.localStorage.setItem("movedRestart1022", "1");
+  }
+}catch(e){}
+let PLAN = STAGES[stage].plan;
+
+const NIGHTS = {
+  differin:{title:"Differin night", why:"Your retinoid night for pores and texture. Differin goes between two thin layers of moisturizer to cushion it."},
+  exfoliant:{title:"Exfoliant night", why:"SOME BY MI toner replaces your usual toner to clear sebaceous filaments."},
+  rest:{title:"Rest night", why:"Full hydration so your barrier can recover between active nights."}
+};
+
+const BASE = [
+  ["beplain Mung Bean Cleansing Oil","Massage the nose area for about a minute"],
+  ["Round Lab Birch Juice Moisturizing Cleanser",""],
+  ["Pat dry with a single-use towel","Skin should be fully dry before actives"]
+];
+const EVENING = {
+  differin:[
+    ["Tower 28 SOS Daily Rescue Spray","Mist after patting dry, before toner. Calms skin ahead of Differin. Keep away from eyes"],
+    ["TIRTIR Milk Skin Toner",""],
+    ["SKIN1004 Madagascar Centella Ampoule",""],
+    ["Thin layer of COSRX ceramide cream","Wait until it sinks in and skin feels dry"],
+    ["Differin Gel","Pea-sized amount for the whole face. Avoid eyes, nose creases, and mouth corners"],
+    ["COSRX ceramide cream","Second layer. Or COSRX Hyaluronic Acid Intensive Cream if skin feels dry"]
+  ],
+  exfoliant:[
+    ["SOME BY MI AHA BHA PHA 30 Days Miracle Toner","Contains tea tree. Skip it if you feel stinging"],
+    ["SKIN1004 Madagascar Centella Ampoule",""],
+    ["COSRX ceramide cream",""]
+  ],
+  rest:[
+    ["Tower 28 SOS Daily Rescue Spray","Optional. Mist before toner, especially if skin feels irritated or has breakouts"],
+    ["TIRTIR Milk Skin Toner",""],
+    ["SKIN1004 Madagascar Centella Ampoule",""],
+    ["Mixsoon Bean Essence",""],
+    ["COSRX ceramide cream",""]
+  ]
+};
+const MORNING = [
+  ["Rinse with water",""],
+  ["Torriden DIVE-IN Hyaluronic Acid Serum","Apply to damp skin"],
+  ["PURCELL Pixcell Biom Glow Barrier Serum","Contains mild acids. Pause it if you get irritated"],
+  ["GOODAL Green Tangerine Vita C serum",""],
+  ["COSRX Advanced Snail 92 All in One Cream","Lightweight gel-cream. A thin layer is enough on your T-zone"],
+  ["d'Alba Waterfull Mild Sunscreen SPF 50+","Always the last step. On body-care weeks, also cover your chest, neck, and hands"]
+];
+
+const MASCOTS = {
+  differin:'<svg viewBox="0 0 80 80"><path d="M52 10a30 30 0 1 0 18 46A26 26 0 0 1 52 10z" fill="#FFF3B8" stroke="var(--ink)" stroke-width="2.6" stroke-linejoin="round"/><path d="M30 44q3 3 6 0M42 44q3 3 6 0" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="28" cy="51" rx="3" ry="2" fill="#F7C6D6"/><ellipse cx="50" cy="51" rx="3" ry="2" fill="#F7C6D6"/><path d="M66 18l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="var(--differin)"/></svg>',
+  exfoliant:'<svg viewBox="0 0 80 80"><path d="M40 6v8" stroke="#6A8F4E" stroke-width="4" stroke-linecap="round"/><path d="M41 12q8-6 14-2" fill="none" stroke="#6A8F4E" stroke-width="3" stroke-linecap="round"/><ellipse cx="40" cy="44" rx="31" ry="27" fill="#FFC48F" stroke="var(--ink)" stroke-width="2.6"/><path d="M40 18v52M24 22q-6 22 0 44M56 22q6 22 0 44" fill="none" stroke="#E9A26A" stroke-width="2"/><circle cx="30" cy="42" r="3" fill="var(--ink)"/><circle cx="50" cy="42" r="3" fill="var(--ink)"/><path d="M34 51q6 5 12 0" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="23" cy="50" rx="3.5" ry="2.2" fill="#F7A9C0"/><ellipse cx="57" cy="50" rx="3.5" ry="2.2" fill="#F7A9C0"/></svg>',
+  rest:'<svg viewBox="0 0 80 80"><path d="M40 8C24 8 13 20 13 36v34l8-6 8 6 8-6 8 6 8-6 8 6 6-4V36C67 20 56 8 40 8z" fill="#FFFFFF" stroke="var(--ink)" stroke-width="2.6" stroke-linejoin="round"/><path d="M27 37q4 3 8 0M45 37q4 3 8 0" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="25" cy="45" rx="3.5" ry="2.2" fill="#F7C6D6"/><ellipse cx="55" cy="45" rx="3.5" ry="2.2" fill="#F7C6D6"/><text x="58" y="14" font-family="Fredoka, sans-serif" font-size="12" font-weight="600" fill="var(--rest)">z</text><text x="66" y="7" font-family="Fredoka, sans-serif" font-size="9" font-weight="600" fill="var(--rest)">z</text></svg>'
+};
+const BODY_PLANS = {2:[2,5], 3:[2,4,6]};
+let bodyFreq = 2;
+try{ const v = parseInt(window.localStorage.getItem("bodyFreq"), 10); if(v === 3) bodyFreq = 3; }catch(e){}
+const BODY_ON = [
+  ["Shower, then dry off completely","Don't use glycolic within a day of shaving"],
+  ["Tower 28 SOS Daily Rescue Spray","Optional. Mist on freshly shaved underarms or legs instead of glycolic, or on any irritated area"],
+  ["The Ordinary Glycolic Acid 7% Toner","On a cotton pad: backs of arms, thighs, elbows, knees, heels, underarms (gently), back and chest"],
+  ["MEDITHERAPY Retinal Skin Booster","Thin layer on chest, neck (go slowly), backs of hands, and any early stretch marks. Never underarms or skin folds"],
+  ["Wash your hands","So the retinal doesn't reach your face"],
+  ["Body lotion","Over all treated areas"]
+];
+const BODY_OFF = [
+  ["Tower 28 SOS Daily Rescue Spray","Optional. Mist on freshly shaved areas to calm shaving bumps"],
+  ["Body lotion","No body actives tonight. Moisturize as usual"]
+];
+const today = new Date();
+let day = today.getDay();
+let mode = "evening";
+
+function store(){ try{ return window.localStorage; }catch(e){ return null; } }
+function key(){ const d = new Date(today); d.setDate(d.getDate() + ((day - today.getDay() + 7) % 7)); return "done:" + d.toISOString().slice(0,10) + ":" + mode; }
+function loadDone(){ const s = store(); if(!s) return []; try{ return JSON.parse(s.getItem(key()) || "[]"); }catch(e){ return []; } }
+function saveDone(arr){ const s = store(); if(!s) return; try{ s.setItem(key(), JSON.stringify(arr)); }catch(e){} }
+
+function renderDays(){
+  const wrap = document.getElementById("days"); wrap.innerHTML = "";
+  for(let i of [1,2,3,4,5,6,0]){
+    const b = document.createElement("button");
+    b.className = "day"; b.setAttribute("aria-pressed", i === day);
+    b.setAttribute("aria-label", FULL[i] + ", " + NIGHTS[PLAN[i]].title);
+    b.innerHTML = DAYS[i] + '<span class="dot" style="background:var(--' + PLAN[i] + ')"></span>';
+    b.onclick = () => { day = i; render(); };
+    wrap.appendChild(b);
+  }
+}
+
+function renderStages(){
+  const wrap = document.getElementById("stages"); wrap.innerHTML = "";
+  STAGES.forEach((st, i) => {
+    const b = document.createElement("button");
+    b.setAttribute("aria-pressed", i === stage);
+    b.innerHTML = "<b>" + st.name + "</b><span>" + st.len + "</span>";
+    b.onclick = () => { if(i !== stage && !getStart(i)) setStart(i, ymd(new Date())); stage = i; PLAN = STAGES[i].plan; try{ window.localStorage.setItem("stage", String(i)); }catch(e){} render(); };
+    wrap.appendChild(b);
+  });
+  document.getElementById("stageGoal").innerHTML = "<strong>" + STAGES[stage].name + " stage</strong>" + STAGES[stage].goal;
+  let start = getStart(stage);
+  if(!start){ start = ymd(new Date()); setStart(stage, start); }
+  document.getElementById("startDate").value = start;
+  const t = new Date(); t.setHours(0,0,0,0);
+  const sd = parseYmd(start);
+  const dayN = Math.floor((t - sd) / 86400000) + 1;
+  const min = MIN_DAYS[stage];
+  const fill = document.getElementById("barFill");
+  const bar = document.getElementById("bar");
+  if(dayN < 1){
+    document.getElementById("dayCount").textContent = "Starts " + fmt(sd);
+    fill.style.width = "0%"; bar.style.display = min ? "" : "none";
+    document.getElementById("nextNote").textContent = "";
+  } else if(min){
+    document.getElementById("dayCount").textContent = "Day " + dayN + " of " + min + (stage === 2 ? "+" : "");
+    bar.style.display = ""; fill.style.width = Math.min(100, dayN / min * 100) + "%";
+    const ready = new Date(sd); ready.setDate(ready.getDate() + min);
+    document.getElementById("nextNote").textContent = dayN > min
+      ? "Ready for " + NEXT[stage] + " since " + fmt(ready) + ", if your skin has stayed calm."
+      : "Ready for " + NEXT[stage] + " on " + fmt(ready) + ", if your skin stays calm.";
+  } else {
+    document.getElementById("dayCount").textContent = "Day " + dayN;
+    bar.style.display = "none";
+    document.getElementById("nextNote").textContent = "This is your ongoing routine.";
+  }
+  document.getElementById("weekLede").textContent = STAGES[stage].lede;
+}
+
+function render(){
+  renderStages();
+  renderDays();
+  const n = PLAN[day];
+  const hero = document.getElementById("hero");
+  hero.className = "hero night-" + n;
+  document.getElementById("mascot").innerHTML = MASCOTS[n];
+  document.getElementById("when").textContent = (day === today.getDay() ? "Tonight, " : "") + FULL[day];
+  document.getElementById("nightTitle").textContent = NIGHTS[n].title;
+  document.getElementById("nightWhy").textContent = NIGHTS[n].why;
+
+  document.getElementById("tEvening").setAttribute("aria-pressed", mode === "evening");
+  document.getElementById("tMorning").setAttribute("aria-pressed", mode === "morning");
+  document.getElementById("tBody").setAttribute("aria-pressed", mode === "body");
+  document.getElementById("fallback").style.display = mode === "morning" ? "none" : "";
+  const bodyOn = BODY_PLANS[bodyFreq].includes(day);
+  const bp = document.getElementById("bodyPanel"); bp.hidden = mode !== "body";
+  document.getElementById("bodyTitle").textContent = bodyOn ? "Body night" : "No body actives";
+  document.getElementById("bodySub").textContent = bodyOn ? "Glycolic on arms, legs, and underarms. Retinal on chest, neck, and hands. Different areas, so both go on the same night." : "Just moisturize tonight.";
+  document.getElementById("f2").setAttribute("aria-pressed", bodyFreq === 2);
+  document.getElementById("f3").setAttribute("aria-pressed", bodyFreq === 3);
+  const bw = document.getElementById("bweek"); bw.innerHTML = "";
+  for(let i of [1,2,3,4,5,6,0]){
+    const d = document.createElement("div");
+    if(BODY_PLANS[bodyFreq].includes(i)) d.classList.add("on");
+    if(i === day) d.classList.add("today");
+    d.textContent = DAYS[i];
+    bw.appendChild(d);
+  }
+  document.getElementById("fallback").textContent = {
+    differin: "If your skin stings, feels tight, or looks red, skip the Differin tonight. A mist of Tower 28 SOS helps calm it. Your COSRX ceramide cream is enough, or use Dr.Althea 345 Relief Cream if you prefer something more soothing.",
+    exfoliant: "If your skin stings, feels tight, or looks red, skip the SOME BY MI toner tonight and use the TIRTIR toner instead. A mist of Tower 28 SOS helps calm it. Your COSRX ceramide cream is enough, or use Dr.Althea 345 Relief Cream if you prefer something more soothing.",
+    rest: "No active step tonight. If your skin stings, feels tight, or looks red, mist with Tower 28 SOS. Your COSRX ceramide cream is enough, or use Dr.Althea 345 Relief Cream if you prefer something more soothing."
+  }[n];
+  if(mode === "body") document.getElementById("fallback").textContent = "If treated skin stings, burns, or turns red, skip body actives and mist with Tower 28 SOS until it calms down, then go back to 2 nights a week. Stop glycolic on the underarms if it burns, since irritation can make darkening worse.";
+
+  let nightSteps = EVENING[n];
+  if(n === "rest" && stage > 0){
+    nightSteps = nightSteps.map(x => x[0] === "Mixsoon Bean Essence" ? ["COSRX The 6 Peptide Skin Booster Serum","Replaces the Mixsoon essence. Use it alone for 2 weeks to make sure it agrees with your skin"] : x);
+  }
+  const list = mode === "body" ? (bodyOn ? BODY_ON : BODY_OFF).map(s => [...s, false]) : mode === "morning" ? MORNING.map(s => [...s, false]) : [...BASE.map(s => [...s, true]), ...nightSteps.map(s => [...s, false])];
+  const done = loadDone();
+  const ol = document.getElementById("steps"); ol.innerHTML = "";
+  list.forEach(([name, note, base], i) => {
+    const li = document.createElement("li");
+    if(done.includes(i)) li.classList.add("done");
+    const id = "c" + i;
+    li.innerHTML = '<div><label for="' + id + '" class="step-name"></label>' +
+      (note ? '<p class="step-note"></p>' : '') +
+      (base ? '<p class="base-tag">Every night</p>' : '') + '</div>' +
+      '<input type="checkbox" class="check" id="' + id + '">';
+    li.querySelector("label").textContent = name;
+    if(note) li.querySelector(".step-note").textContent = note;
+    const cb = li.querySelector("input"); cb.checked = done.includes(i);
+    cb.onchange = () => {
+      let d = loadDone();
+      d = cb.checked ? [...new Set([...d, i])] : d.filter(x => x !== i);
+      saveDone(d); li.classList.toggle("done", cb.checked);
+    };
+    ol.appendChild(li);
+  });
+
+  const wk = document.getElementById("week"); wk.innerHTML = "";
+  for(let i of [1,2,3,4,5,6,0]){
+    const d = document.createElement("div");
+    d.className = "w-" + PLAN[i];
+    d.innerHTML = DAYS[i] + "<span>" + {differin:"Differin",exfoliant:"Exfoliant",rest:"Rest"}[PLAN[i]] + "</span>";
+    wk.appendChild(d);
+  }
+}
+
+document.getElementById("tEvening").onclick = () => { mode = "evening"; render(); };
+document.getElementById("tMorning").onclick = () => { mode = "morning"; render(); };
+document.getElementById("startDate").onchange = (e) => { if(e.target.value){ setStart(stage, e.target.value); render(); } };
+document.getElementById("tBody").onclick = () => { mode = "body"; render(); };
+function setFreq(f){ bodyFreq = f; try{ window.localStorage.setItem("bodyFreq", String(f)); }catch(e){} render(); }
+document.getElementById("f2").onclick = () => setFreq(2);
+document.getElementById("f3").onclick = () => setFreq(3);
+render();
+</script>
+</body>
+</html>
