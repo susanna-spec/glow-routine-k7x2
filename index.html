@@ -232,7 +232,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);text-align:center}
     <h3 class="later">Add later</h3>
     <dl>
       <dt>Beauty of Joseon Revive Eye Serum</dt>
-      <dd>Contains retinal. Start 2 rest nights a week, around the eyes only.</dd>
+      <dd>Contains retinal, so it is another retinoid on top of Differin. Wait until you are settled in the Build stage, then start 2 rest nights a week, around the eyes only.</dd>
       <dt>COSRX The 6 Peptide Skin Booster Serum</dt>
       <dd>Gentle peptides for firmness and barrier support. Use it from the Restart stage on, in place of the Mixsoon essence on rest nights. You already know it agrees with your skin, so you can also use it on Differin nights before the first thin layer of moisturizer.</dd>
       <dt>The Ordinary Lactic Acid 10% + HA</dt>
@@ -264,14 +264,14 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);text-align:center}
         <li>Elbows, knees, and heels</li>
         <li>Underarms, gently</li>
         <li>Shaved legs and outer bikini line, not within a day of shaving</li>
-        <li>Back and chest</li>
+        <li>Back (not the chest, which is for the retinal)</li>
       </ul>
       <h4>Helps with</h4>
       <ul>
         <li>Rough, bumpy skin on the backs of the arms or thighs</li>
         <li>Rough elbows, knees, and heels</li>
         <li>Ingrown hairs and razor bumps</li>
-        <li>Dullness or uneven tone on arms, legs, or chest</li>
+        <li>Dullness or uneven tone on arms or legs</li>
         <li>Underarm bumps and darkening from friction or shaving, gradually over weeks to months</li>
       </ul>
       <h4>How to use</h4>
@@ -392,7 +392,7 @@ const EVENING = {
     ["COSRX ceramide cream","Second layer. Or COSRX Hyaluronic Acid Intensive Cream if skin feels dry"]
   ],
   exfoliant:[
-    ["SOME BY MI AHA BHA PHA 30 Days Miracle Toner","Contains tea tree. Skip it if you feel stinging"],
+    ["SOME BY MI AHA BHA PHA 30 Days Miracle Toner","Optional, and the first product to retire. Contains peppermint oil and tea tree. Skip it if you feel stinging"],
     ["SKIN1004 Madagascar Centella Ampoule",""],
     ["COSRX ceramide cream",""]
   ],
@@ -424,7 +424,7 @@ try{ const v = parseInt(window.localStorage.getItem("bodyFreq"), 10); if(v === 3
 const BODY_ON = [
   ["Shower, then dry off completely","Don't use glycolic within a day of shaving"],
   ["Tower 28 SOS Daily Rescue Spray","Optional. Mist on freshly shaved underarms or legs instead of glycolic, or on any irritated area"],
-  ["The Ordinary Glycolic Acid 7% Toner","On a cotton pad: backs of arms, thighs, elbows, knees, heels, underarms (gently), back and chest"],
+  ["The Ordinary Glycolic Acid 7% Toner","On a cotton pad: backs of arms, thighs, elbows, knees, heels, underarms (gently), and back. Skip the chest, which is for the retinal"],
   ["MEDITHERAPY Retinal Skin Booster","Thin layer on chest, neck (go slowly), backs of hands, and any early stretch marks. Never underarms or skin folds"],
   ["Wash your hands","So the retinal doesn't reach your face"],
   ["Body lotion","Over all treated areas"]
@@ -482,8 +482,8 @@ function renderStages(){
     bar.style.display = ""; fill.style.width = Math.min(100, dayN / min * 100) + "%";
     const ready = new Date(sd); ready.setDate(ready.getDate() + min);
     document.getElementById("nextNote").textContent = dayN > min
-      ? "Ready for " + NEXT[stage] + " since " + fmt(ready) + ", if your skin has stayed calm."
-      : "Ready for " + NEXT[stage] + " on " + fmt(ready) + ", if your skin stays calm.";
+      ? "Ready for " + NEXT[stage] + " since " + fmt(ready) + ", if your skin has stayed calm." + (stage === 1 ? " Move up only if your first two Differin nights were both calm. Staying one more week is fine." : "")
+      : "Ready for " + NEXT[stage] + " on " + fmt(ready) + ", if your skin stays calm." + (stage === 1 ? " This is the earliest date. Move up only if your first two Differin nights were both calm. Staying one more week is fine." : "");
   } else {
     document.getElementById("dayCount").textContent = "Day " + dayN;
     bar.style.display = "none";
