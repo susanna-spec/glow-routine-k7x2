@@ -234,7 +234,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);text-align:center}
       <dt>Beauty of Joseon Revive Eye Serum</dt>
       <dd>Contains retinal. Start 2 rest nights a week, around the eyes only.</dd>
       <dt>COSRX The 6 Peptide Skin Booster Serum</dt>
-      <dd>Gentle peptides for firmness and barrier support. Start after the Reset stage, in place of the Mixsoon essence on rest nights, on its own for 2 weeks. Once it agrees with your skin, you can also use it on Differin nights before the first thin layer of moisturizer.</dd>
+      <dd>Gentle peptides for firmness and barrier support. Use it from the Restart stage on, in place of the Mixsoon essence on rest nights. You already know it agrees with your skin, so you can also use it on Differin nights before the first thin layer of moisturizer.</dd>
       <dt>The Ordinary Lactic Acid 10% + HA</dt>
       <dd>Optional swap for the SOME BY MI toner if texture hasn't improved after a couple of months. Never use both.</dd>
     </dl>
@@ -530,7 +530,7 @@ function render(){
 
   let nightSteps = EVENING[n];
   if(n === "rest" && stage > 0){
-    nightSteps = nightSteps.map(x => x[0] === "Mixsoon Bean Essence" ? ["COSRX The 6 Peptide Skin Booster Serum","Replaces the Mixsoon essence. Use it alone for 2 weeks to make sure it agrees with your skin"] : x);
+    nightSteps = nightSteps.map(x => x[0] === "Mixsoon Bean Essence" ? ["COSRX The 6 Peptide Skin Booster Serum","Replaces the Mixsoon essence. You already know it agrees with your skin"] : x);
   }
   const list = mode === "body" ? (bodyOn ? BODY_ON : BODY_OFF).map(s => [...s, false]) : mode === "morning" ? MORNING.map(s => [...s, false]) : [...BASE.map(s => [...s, true]), ...nightSteps.map(s => [...s, false])];
   const done = loadDone();
