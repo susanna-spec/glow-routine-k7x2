@@ -226,11 +226,9 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);text-align:center}
       <dt>Tower 28 SOS Daily Rescue Spray</dt>
       <dd>Gentle hypochlorous acid mist that calms redness and breakouts. Built into Differin and rest nights and the Body tab. Also good during the day over makeup or bare skin, though it won't set makeup. A faint pool smell is normal and fades.</dd>
       <dt>COSRX Hyaluronic Acid Intensive Cream</dt>
-      <dd>Richer than your ceramide cream. Use on Differin nights or in winter, mostly on the cheeks.</dd>
+      <dd>Your main night cream for now. Use for both thin moisturizer layers on Differin nights, and any rest night.</dd>
       <dt>Aquaphor Healing Balm Stick</dt>
       <dd>Built into Differin nights as a buffer on nose creases, mouth corners, and lips. Also great for dry lips any time.</dd>
-      <dt>Skin Barrier Moisturizing Cream (ceramides, panthenol, hyaluronic acid)</dt>
-      <dd>Stand-in night cream while your COSRX ceramide cream is out. Already skin-tested on your body and neck. Works for both thin moisturizer layers on Differin nights.</dd>
       <dt>d'Alba Vegan Fresh Sun Stick SPF 50+</dt>
       <dd>For reapplying sunscreen during the day. It has citrus oils, so patch test and skip it if the scent or any stinging bothers you.</dd>
       <dt>Trader Joe's Milky Hydrating Bi-Phase Mist</dt>
@@ -397,22 +395,22 @@ const EVENING = {
     ["Tower 28 SOS Daily Rescue Spray","Mist after patting dry, before toner. Calms skin ahead of Differin. Keep away from eyes"],
     ["TIRTIR Milk Skin Toner",""],
     ["SKIN1004 Madagascar Centella Ampoule",""],
-    ["Thin layer of COSRX ceramide cream","Wait until it sinks in and skin feels dry"],
+    ["Thin layer of COSRX Hyaluronic Acid Intensive Cream","Wait until it sinks in and skin feels dry"],
     ["Aquaphor Healing Balm Stick","Dab on nose creases, mouth corners, and lips to shield them from the Differin"],
     ["Differin Gel","Pea-sized amount for the whole face. Avoid eyes, nose creases, and mouth corners"],
-    ["COSRX ceramide cream","Second layer. Or COSRX Hyaluronic Acid Intensive Cream if skin feels dry"]
+    ["COSRX Hyaluronic Acid Intensive Cream","Second layer"]
   ],
   exfoliant:[
     ["SOME BY MI AHA BHA PHA 30 Days Miracle Toner","Optional, and the first product to retire. Contains peppermint oil and tea tree. Skip it if you feel stinging"],
     ["SKIN1004 Madagascar Centella Ampoule",""],
-    ["COSRX ceramide cream",""]
+    ["COSRX Hyaluronic Acid Intensive Cream",""]
   ],
   rest:[
     ["Tower 28 SOS Daily Rescue Spray","Optional. Mist before toner, especially if skin feels irritated or has breakouts"],
     ["TIRTIR Milk Skin Toner",""],
     ["SKIN1004 Madagascar Centella Ampoule",""],
     ["Mixsoon Bean Essence",""],
-    ["COSRX ceramide cream",""]
+    ["COSRX Hyaluronic Acid Intensive Cream",""]
   ]
 };
 const MORNING = [
@@ -533,9 +531,9 @@ function render(){
     bw.appendChild(d);
   }
   document.getElementById("fallback").textContent = {
-    differin: "If your skin stings, feels tight, or looks red, skip the Differin tonight. A mist of Tower 28 SOS helps calm it. Your COSRX ceramide cream is enough, or use Dr.Althea 345 Relief Cream if you prefer something more soothing.",
-    exfoliant: "If your skin stings, feels tight, or looks red, skip the SOME BY MI toner tonight and use the TIRTIR toner instead. A mist of Tower 28 SOS helps calm it. Your COSRX ceramide cream is enough, or use Dr.Althea 345 Relief Cream if you prefer something more soothing.",
-    rest: "No active step tonight. If your skin stings, feels tight, or looks red, mist with Tower 28 SOS. Your COSRX ceramide cream is enough, or use Dr.Althea 345 Relief Cream if you prefer something more soothing."
+    differin: "If your skin stings, feels tight, or looks red, skip the Differin tonight. A mist of Tower 28 SOS helps calm it. Your COSRX Hyaluronic Acid Intensive Cream is enough, or use Dr.Althea 345 Relief Cream if you prefer something more soothing.",
+    exfoliant: "If your skin stings, feels tight, or looks red, skip the SOME BY MI toner tonight and use the TIRTIR toner instead. A mist of Tower 28 SOS helps calm it. Your COSRX Hyaluronic Acid Intensive Cream is enough, or use Dr.Althea 345 Relief Cream if you prefer something more soothing.",
+    rest: "No active step tonight. If your skin stings, feels tight, or looks red, mist with Tower 28 SOS. Your COSRX Hyaluronic Acid Intensive Cream is enough, or use Dr.Althea 345 Relief Cream if you prefer something more soothing."
   }[n];
   if(mode === "body") document.getElementById("fallback").textContent = "If treated skin stings, burns, or turns red, skip body actives and mist with Tower 28 SOS until it calms down, then go back to 2 nights a week. Stop glycolic on the underarms if it burns, since irritation can make darkening worse.";
 
